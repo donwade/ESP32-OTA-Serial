@@ -1,20 +1,17 @@
 #include "HardwareSerial.h"
-#include "AsyncTelnetSerial.h"
 #include "util.h"
+#include "WirelessSerial.h"
 
-#define BAUD_RATE 115200
-
-AsyncTelnetSerial telnetSerial(&Serial);
+WirelessSerial wSerial(&Serial);
 
 void setup() {
-    Serial.begin(BAUD_RATE);
     connectToWiFi();
+    wSerial.begin();
     OTASetup();
-    telnetSerial.begin();
 }
 
 void loop() {
+    wSerial.println(wSerial.isClientConnected ? "Client connected" : "Client disconnected");
     OTAHandle();
-    Serial.print("Hello World");
-    delay(100);
+    delay(1000);
 }
