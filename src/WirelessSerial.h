@@ -36,13 +36,6 @@ public:
         _telnet->begin(false, false);
     }
 
-    void print(const char *data) {
-        if (isClientConnected) {
-            _telnet->write(data);
-        }
-        _serial->print(data);
-    }
-
     void print(const std::string &data) {
         print(data.c_str());
     }
@@ -51,12 +44,15 @@ public:
         print(data.c_str());
     }
 
-    void println(const char *data) {
+    void print(const long data) {
+        print(String(data).c_str());
+    }
+
+    void print(const char *data) {
         if (isClientConnected) {
             _telnet->write(data);
-            _telnet->write(NEWLINE);
         }
-        _serial->println(data);
+        _serial->print(data);
     }
 
     void println(const std::string &data) {
@@ -65,6 +61,22 @@ public:
 
     void println(const String &data) {
         println(data.c_str());
+    }
+
+    void println(const long data) {
+        println(String(data).c_str());
+    }
+
+    void println() {
+        println("");
+    }
+
+    void println(const char *data) {
+        if (isClientConnected) {
+            _telnet->write(data);
+            _telnet->write(NEWLINE);
+        }
+        _serial->println(data);
     }
 
     void setOnIncomingData(std::function<void(std::string)> callback) {

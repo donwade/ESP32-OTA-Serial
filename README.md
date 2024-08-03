@@ -1,4 +1,4 @@
-# ESP32 OTA Serial & Updater
+# ESP32 OTA Serial
 
 This small project provides simple ready to use mechanism to update your ESP32 over the air (OTA) and to handle serial
 communication wirelessly using PlatformIO.
