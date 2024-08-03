@@ -1,8 +1,8 @@
-#include "HardwareSerial.h"
 #include "secrets.h"
-#include "WirelessSerial.h"
-#include "OTA.h"
-#include "WiF1Class.h"
+#include <WiF1Class.h>
+#include <HardwareSerial.h>
+#include <WirelessSerial.h>
+#include <OTA.h>
 
 void setup() {
     WiF1.begin(WIFI_SSID, WIFI_PASS);

@@ -1,5 +1,5 @@
-#ifndef OTA_OTA_H
-#define OTA_OTA_H
+#ifndef ESP32-OTA-Serial-And-Updater_OTA_H
+#define ESP32-OTA-Serial-And-Updater_OTA_H
 
 #include <ArduinoOTA.h>
 
@@ -46,4 +46,4 @@ public:
     }
 };
 
-#endif //OTA_OTA_H
+#endif //ESP32-OTA-Serial-And-Updater_OTA_H

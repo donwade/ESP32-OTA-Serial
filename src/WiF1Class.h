@@ -1,5 +1,5 @@
-#ifndef OTA_WIF1_H
-#define OTA_WIF1_H
+#ifndef ESP32-OTA-Serial-And-Updater_WIF1_H
+#define ESP32-OTA-Serial-And-Updater_WIF1_H
 
 #include <WiFi.h>
 
@@ -17,4 +17,4 @@ public:
 
 WiF1Class WiF1;
 
-#endif //OTA_WIF1_H
+#endif //ESP32-OTA-Serial-And-Updater_WIF1_H
