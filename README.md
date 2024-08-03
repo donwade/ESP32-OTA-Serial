@@ -7,7 +7,7 @@ of: https://github.com/janphoffmann/AsyncTelnet.git
 
 ### Prerequisites
 
-Copy the following files from HelloWorld example to your project:
+Copy the following files from HelloWorld examples to your project:
 
 - HelloWorld.ino (into src dir)
 - secrets.h (into src dir)

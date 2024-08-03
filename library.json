@@ -1,6 +1,6 @@
 {
   "name": "ESP32 OTA Serial & Updater",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "This library enables wireless updates and serial communication for ESP32 devices. It uses the ArduinoOTA and a modified AsyncTelnet library.",
   "keywords": "OTA, WIFI, Telnet, ESP32, ArduinoOTA, AsyncTelnet, Serial, Update, Wireless",
   "repository": {
