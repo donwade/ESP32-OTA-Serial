@@ -1,16 +1,17 @@
 #include "HardwareSerial.h"
-#include "util.h"
+#include "secrets.h"
 #include "WirelessSerial.h"
-
-WirelessSerial wSerial(&Serial);
+#include "OTA.h"
+#include "WiF1Class.h"
 
 void setup() {
-    connectToWiFi();
-    wSerial.begin();
-    OTASetup();
+    WiF1.begin(WIFI_SSID, WIFI_PASS);
+    WSerial.begin();
+    OTA::setup("ESP32-OTA");
 }
 
 void loop() {
-    OTAHandle();
+    WSerial.println("Hello, world! " + String(millis()));
+    OTA::handle();
     delay(1000);
 }
