@@ -1,5 +1,5 @@
-#ifndef ESP32-OTA-Serial-And-Updater_WIRELESSSERIAL_H
-#define ESP32-OTA-Serial-And-Updater_WIRELESSSERIAL_H
+#ifndef ESP32_OTA_H
+#define ESP32_OTA_H
 
 #include <HardwareSerial.h>
 #include <AsyncTelnet.h>
@@ -79,4 +79,4 @@ private:
 
 WirelessSerial WSerial(&Serial);
 
-#endif //ESP32-OTA-Serial-And-Updater_WIRELESSSERIAL_H
+#endif //ESP32_OTA_H

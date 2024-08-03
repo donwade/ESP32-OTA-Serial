@@ -4,10 +4,10 @@
  * to avoid sharing your secrets with the world.
  * **********************************************************************************/
 
-#ifndef OTA_SECRETS_H
-#define OTA_SECRETS_H
+#ifndef ESP32_OTA_SECRETS_H
+#define ESP32_OTA_SECRETS_H
 
 #define WIFI_SSID "YourSSID"
 #define WIFI_PASS "YourPassword"
 
-#endif //OTA_SECRETS_H
+#endif //ESP32_OTA_SECRETS_H
