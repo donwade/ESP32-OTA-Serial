@@ -1,5 +1,5 @@
-#ifndef ESP32_OTA_H
-#define ESP32_OTA_H
+#ifndef OTA_H
+#define OTA_H
 
 #include <ArduinoOTA.h>
 
@@ -46,4 +46,4 @@ public:
     }
 };
 
-#endif //ESP32_OTA_H
+#endif //OTA_H

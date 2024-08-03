@@ -1,5 +1,5 @@
-#ifndef ESP32_OTA_H
-#define ESP32_OTA_H
+#ifndef WIF1CLASS_H
+#define WIF1CLASS_H
 
 #include <WiFi.h>
 
@@ -17,4 +17,4 @@ public:
 
 WiF1Class WiF1;
 
-#endif //ESP32_OTA_H
+#endif //WIF1CLASS_H
