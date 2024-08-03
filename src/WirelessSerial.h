@@ -6,47 +6,49 @@
 
 #define BAUD_RATE 115200
 
-class WirelessSerial : public AsyncTelnet {
+class WirelessSerial {
 
 public:
-    explicit WirelessSerial(HardwareSerial *serial) : AsyncTelnet(23) {
+    explicit WirelessSerial(HardwareSerial *serial) {
         _serial = serial;
         isClientConnected = false;
+        _telnet = new AsyncTelnet();
     }
 
     void begin(unsigned long baudrate = BAUD_RATE) {
-        Serial.begin(baudrate);
-        AsyncTelnet::onConnect([=](void *, AsyncClient *client) {
-            Serial.println("Client connected");
+        _serial->begin(baudrate);
+        _telnet->onConnect([=](void *, AsyncClient *client) {
+            _serial->println("Client connected");
             isClientConnected = true;
         });
 
-        AsyncTelnet::onDisconnect([=](AsyncClient *client) {
-            Serial.println("Client disconnected");
+        _telnet->onDisconnect([=](AsyncClient *client) {
+            _serial->println("Client disconnected");
             isClientConnected = false;
         });
 
-        AsyncTelnet::begin(false, false);
+        _telnet->begin(false, false);
     }
 
     void print(const char *data) {
         if (isClientConnected) {
-            AsyncTelnet::write(data);
+            _telnet->write(data);
         }
-        Serial.print(data);
+        _serial->print(data);
     }
 
     void println(const char *data) {
         if (isClientConnected) {
-            AsyncTelnet::write(data);
-            AsyncTelnet::write("\n");
+            _telnet->write(data);
+            _telnet->write("\n");
         }
-        Serial.println(data);
+        _serial->println(data);
     }
 
     bool isClientConnected;
 private:
     HardwareSerial *_serial;
+    AsyncTelnet *_telnet;
 };
 
 #endif //OTA_WIRELESSSERIAL_H

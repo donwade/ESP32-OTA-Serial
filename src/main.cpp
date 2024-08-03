@@ -11,7 +11,6 @@ void setup() {
 }
 
 void loop() {
-    wSerial.println(wSerial.isClientConnected ? "Client connected" : "Client disconnected");
     OTAHandle();
     delay(1000);
 }
