@@ -21,19 +21,11 @@ Remember to add this file to your `.gitignore` file to avoid sharing your secret
 
 ### How to use
 
-To upload project for the first time you need to comment out these lines in `platformio.ini` file:
+To upload project for the first time you need to use USB, so run in console in project directory: `pio run -t upload -e usb`
 
-```ini
-upload_protocol = espota
-upload_port = ${env.HOSTNAME}.local
-monitor_port = socket://${env.HOSTNAME}.local:23
-```
+After uploading the project you can run also `pio run -t upload -e ota` to upload the project wirelessly.
 
-Then run in console in project directory: `pio run -t upload -e esp32dev`
-
-After uploading the project you can uncomment these lines and run the same command again, but now you don't need to connect ESP32 to your computer.
-
-Now you can also get serial output wirelessly using `pio device monitor -e esp32dev` command.
+Now you can also get serial output wirelessly using `pio device monitor -e ota` command.
 
 ### How it works
 
