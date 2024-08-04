@@ -48,6 +48,10 @@ public:
         print(String(data).c_str());
     }
 
+    void print(const bool data) {
+        print(data ? "1" : "0");
+    }
+
     void print(const char *data) {
         if (isClientConnected) {
             _telnet->write(data);
@@ -65,6 +69,10 @@ public:
 
     void println(const long data) {
         println(String(data).c_str());
+    }
+
+    void println(const bool data) {
+        println(data ? "1" : "0");
     }
 
     void println() {

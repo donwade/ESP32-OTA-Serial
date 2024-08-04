@@ -9,7 +9,7 @@ public:
         WiFiSTAClass::begin(ssid, pass);
         setAutoReconnect(true);
         while (waitForConnectResult() != WL_CONNECTED) {
-            delay(2000);
+            delay(5000);
             ESP.restart();
         }
     }
