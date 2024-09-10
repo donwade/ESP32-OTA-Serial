@@ -5,12 +5,25 @@
 #include <utility>
 #include <vector>
 #include <numeric>
+#include "WirelessSerial.h"
+#include <WiFi.h>
 
 static std::function<void()> disableInterruptsCallback = nullptr;
 
 class OTA {
 public:
-    static void setup(const char *hostname, const char *password = "", unsigned int port = 3232) {
+    static void setupWiFi(const char *ssid, const char *pass) {
+        WiFi.begin(ssid, pass);
+        WiFi.setAutoReconnect(true);
+        while (WiFi.waitForConnectResult() != WL_CONNECTED) {
+            delay(5000);
+            ESP.restart();
+        }
+    }
+
+    static void start(const char *hostname, const char *password = "", unsigned int port = 3232, unsigned int interval = 1000) {
+        WSerial.begin();
+
         ArduinoOTA.setPort(port);
         ArduinoOTA.setHostname(hostname);
         ArduinoOTA.setPassword(password);
@@ -51,9 +64,14 @@ public:
             ESP.restart();
         });
         ArduinoOTA.begin();
+
         Serial.println("Ready");
         Serial.print("IP address: ");
         Serial.println(WiFi.localIP());
+
+        auto handle = [](TimerHandle_t xTimer) { OTA::handle(); };
+        timer = xTimerCreate(NULL, pdMS_TO_TICKS(interval), true, NULL, handle);
+        xTimerStart(timer, 0);
     }
 
     static void setDisableInterruptsCallback(std::function<void()> _disableInterruptsCallback) {
@@ -69,6 +87,7 @@ public:
     }
 
 private:
+    static TimerHandle_t timer;
     static void disableInterruptsAllPins() {
         std::vector<int> pins(40);
         std::iota(pins.begin(), pins.end(), 0);
