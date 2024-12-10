@@ -88,6 +88,7 @@ public:
 
 private:
     static TimerHandle_t timer;
+
     static void disableInterruptsAllPins() {
         std::vector<int> pins(40);
         std::iota(pins.begin(), pins.end(), 0);
@@ -100,5 +101,7 @@ private:
         }
     }
 };
+
+TimerHandle_t OTA::timer = nullptr;
 
 #endif //OTA_H
