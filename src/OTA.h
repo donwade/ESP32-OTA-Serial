@@ -1,12 +1,18 @@
 #ifndef OTA_H
 #define OTA_H
 
+#ifdef ESP32
+#include <WiFi.h>
+#define DEFAULT_PORT 3232
+#elif defined(ESP8266)
+#define DEFAULT_PORT 8266
+#include <string>
+#endif
 #include <ArduinoOTA.h>
 #include <utility>
 #include <vector>
 #include <numeric>
 #include "WirelessSerial.h"
-#include <WiFi.h>
 
 static std::function<void()> disableInterruptsCallback = nullptr;
 
@@ -28,8 +34,9 @@ public:
         }
     }
 
-    static void
-    start(const char *hostname, const char *password = "", unsigned int port = 3232, unsigned int interval = 1000) {
+    static void start(const char *hostname,
+                      const char *password = "",
+                      unsigned int port = DEFAULT_PORT) {
         WSerial.begin();
 
         ArduinoOTA.setPort(port);
@@ -77,7 +84,7 @@ public:
 
         WSerial.println("Ready");
         WSerial.print("IP address: ");
-        WSerial.println(String(WiFi.localIP()));
+        WSerial.println(WiFi.localIP().toString());
     }
 
     static void setDisableInterruptsCallback(std::function<void()> _disableInterruptsCallback) {
