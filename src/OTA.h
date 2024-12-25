@@ -14,15 +14,15 @@ class OTA {
 public:
     static void setupWiFi(const char *ssid, const char *pass) {
         WSerial.beginLocally();
-        WSerial.printlnLocally("\nConnecting to Wi-Fi...");
-        WSerial.printlnLocally(std::string("SSID: ") + ssid);
-        WSerial.printlnLocally(std::string("Password: ") + pass);
+        WSerial.println("\nConnecting to Wi-Fi...");
+        WSerial.println(std::string("SSID: ") + ssid);
+        WSerial.println(std::string("Password: ") + pass);
 
         WiFi.begin(ssid, pass);
         WiFi.setAutoReconnect(true);
         while (WiFi.waitForConnectResult() != WL_CONNECTED) {
             delay(5000);
-            WSerial.printlnLocally("Failed to connect to Wi-Fi");
+            WSerial.println("Failed to connect to Wi-Fi");
             ESP.restart();
         }
     }
@@ -36,10 +36,10 @@ public:
 
         ArduinoOTA.onStart([]() {
             if (disableInterruptsCallback == nullptr) {
-                Serial.println("\nDisabling all pins");
+                WSerial.println("\nDisabling all pins");
                 disableInterruptsAllPins();
             } else {
-                Serial.println("\nRunning custom callback to disable interrupts");
+                WSerial.println("\nRunning custom callback to disable interrupts");
                 disableInterruptsCallback();
             }
             String type;
@@ -49,31 +49,31 @@ public:
                 type = "filesystem";
 
             // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-            Serial.println("Start updating " + type);
+            WSerial.println("Start updating " + type);
         });
         ArduinoOTA.onEnd([]() {
-            Serial.println("\nEnd");
+            WSerial.println("\nEnd");
         });
         ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-            Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+            WSerial.printf("Progress: %u%%\r", (progress / (total / 100)));
         });
         ArduinoOTA.onError([](ota_error_t error) {
-            Serial.printf("Error[%u]: ", error);
-            if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-            else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-            else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-            else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-            else if (error == OTA_END_ERROR) Serial.println("End Failed");
+            WSerial.printf("Error[%u]: ", error);
+            if (error == OTA_AUTH_ERROR) WSerial.println("Auth Failed");
+            else if (error == OTA_BEGIN_ERROR) WSerial.println("Begin Failed");
+            else if (error == OTA_CONNECT_ERROR) WSerial.println("Connect Failed");
+            else if (error == OTA_RECEIVE_ERROR) WSerial.println("Receive Failed");
+            else if (error == OTA_END_ERROR) WSerial.println("End Failed");
 
-            Serial.println("Rebooting...");
+            WSerial.println("Rebooting...");
             delay(100);
             ESP.restart();
         });
         ArduinoOTA.begin();
 
-        Serial.println("Ready");
-        Serial.print("IP address: ");
-        Serial.println(WiFi.localIP());
+        WSerial.println("Ready");
+        WSerial.print("IP address: ");
+        WSerial.println(String(WiFi.localIP()));
 
         auto handle = [](TimerHandle_t xTimer) { OTA::handle(); };
         timer = xTimerCreate(NULL, pdMS_TO_TICKS(interval), true, NULL, handle);

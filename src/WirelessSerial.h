@@ -20,7 +20,7 @@ public:
         _serial->begin(baudrate);
     }
 
-    void begin(unsigned long baudrate = BAUD_RATE) {
+    void begin() {
         _serial->println();
         _telnet->onConnect([=](void *, AsyncClient *client) {
             _serial->println("\nClient connected");
@@ -37,10 +37,6 @@ public:
         });
 
         _telnet->begin(false, false);
-    }
-
-    void printlnLocally(const std::string &data) {
-        _serial->println(data.c_str());
     }
 
     void print(const std::string &data) {
@@ -84,6 +80,30 @@ public:
 
     void println() {
         println("");
+    }
+
+    void printf(const char *format, ...) {
+        char buffer[256]; // Adjust the buffer size if necessary
+
+        // Start variadic argument processing
+        va_list args;
+        va_start(args, format);
+
+        // Format the string into the buffer
+        vsnprintf(buffer, sizeof(buffer), format, args);
+
+        // End variadic argument processing
+        va_end(args);
+
+        // Send data to the client over Telnet if connected
+        if (isClientConnected) {
+            _telnet->write(buffer);
+            _telnet->write(NEWLINE);
+        }
+
+        // Print data to the serial console
+        _serial->print(buffer);
+        _serial->print(NEWLINE);
     }
 
     void println(const char *data) {
