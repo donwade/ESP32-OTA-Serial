@@ -4,10 +4,8 @@
  * to avoid sharing your secrets with the world.
  * **********************************************************************************/
 
-#ifndef SECRETS_H
+#undef SECRETS_H
 #define SECRETS_H
 
 #define WIFI_SSID "YourSSID"
 #define WIFI_PASS "YourPassword"
-
-#endif //SECRETS_H

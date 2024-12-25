@@ -13,10 +13,16 @@ static std::function<void()> disableInterruptsCallback = nullptr;
 class OTA {
 public:
     static void setupWiFi(const char *ssid, const char *pass) {
+        WSerial.beginLocally();
+        WSerial.printlnLocally("\nConnecting to Wi-Fi...");
+        WSerial.printlnLocally(std::string("SSID: ") + ssid);
+        WSerial.printlnLocally(std::string("Password: ") + pass);
+
         WiFi.begin(ssid, pass);
         WiFi.setAutoReconnect(true);
         while (WiFi.waitForConnectResult() != WL_CONNECTED) {
             delay(5000);
+            WSerial.printlnLocally("Failed to connect to Wi-Fi");
             ESP.restart();
         }
     }

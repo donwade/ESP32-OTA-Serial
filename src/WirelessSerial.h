@@ -16,8 +16,11 @@ public:
         _telnet = new AsyncTelnet();
     }
 
-    void begin(unsigned long baudrate = BAUD_RATE) {
+    void beginLocally(unsigned long baudrate = BAUD_RATE) { // Useful before WiFi.begin()
         _serial->begin(baudrate);
+    }
+
+    void begin(unsigned long baudrate = BAUD_RATE) {
         _serial->println();
         _telnet->onConnect([=](void *, AsyncClient *client) {
             _serial->println("\nClient connected");
@@ -34,6 +37,10 @@ public:
         });
 
         _telnet->begin(false, false);
+    }
+
+    void printlnLocally(const std::string &data) {
+        _serial->println(data.c_str());
     }
 
     void print(const std::string &data) {
