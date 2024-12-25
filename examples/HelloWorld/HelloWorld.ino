@@ -7,6 +7,7 @@ void setup() {
 }
 
 void loop() {
+    OTA::handle();
     WSerial.println("Hello, world! " + String(millis()));
     delay(1000);
 }

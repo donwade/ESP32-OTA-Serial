@@ -14,6 +14,7 @@ class OTA {
 public:
     static void setupWiFi(const char *ssid, const char *pass) {
         WSerial.beginLocally();
+
         WSerial.println("\nConnecting to Wi-Fi...");
         WSerial.println(std::string("SSID: ") + ssid);
         WSerial.println(std::string("Password: ") + pass);
@@ -35,8 +36,9 @@ public:
         ArduinoOTA.setPassword(password);
 
         ArduinoOTA.onStart([]() {
+            WSerial.println("Start updating...");
             if (disableInterruptsCallback == nullptr) {
-                WSerial.println("\nDisabling all pins");
+                WSerial.println("\nDisabling all pins to prevent interrupts");
                 disableInterruptsAllPins();
             } else {
                 WSerial.println("\nRunning custom callback to disable interrupts");
@@ -74,10 +76,6 @@ public:
         WSerial.println("Ready");
         WSerial.print("IP address: ");
         WSerial.println(String(WiFi.localIP()));
-
-        auto handle = [](TimerHandle_t xTimer) { OTA::handle(); };
-        timer = xTimerCreate(NULL, pdMS_TO_TICKS(interval), true, NULL, handle);
-        xTimerStart(timer, 0);
     }
 
     static void setDisableInterruptsCallback(std::function<void()> _disableInterruptsCallback) {
