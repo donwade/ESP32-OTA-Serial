@@ -28,7 +28,8 @@ public:
         }
     }
 
-    static void start(const char *hostname, const char *password = "", unsigned int port = 3232, unsigned int interval = 1000) {
+    static void
+    start(const char *hostname, const char *password = "", unsigned int port = 3232, unsigned int interval = 1000) {
         WSerial.begin();
 
         ArduinoOTA.setPort(port);
@@ -71,6 +72,7 @@ public:
             delay(100);
             ESP.restart();
         });
+
         ArduinoOTA.begin();
 
         WSerial.println("Ready");
@@ -91,8 +93,6 @@ public:
     }
 
 private:
-    static TimerHandle_t timer;
-
     static void disableInterruptsAllPins() {
         std::vector<int> pins(40);
         std::iota(pins.begin(), pins.end(), 0);
@@ -101,11 +101,10 @@ private:
 
     static void disableInterruptsDefaultCallback(const std::vector<int> &pins) {
         for (int pin: pins) {
+            WSerial.println("Disabling pin " + String(pin));
             detachInterrupt(pin);
         }
     }
 };
-
-TimerHandle_t OTA::timer = nullptr;
 
 #endif //OTA_H
