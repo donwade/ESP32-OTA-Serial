@@ -1,6 +1,6 @@
 # ESP32 OTA Serial
 
-This small project provides simple ready to use mechanism to update your ESP32 over the air (OTA) and to handle serial
+This small project provides simple ready to use mechanism to update your ESP32 and ESP8266 over the air (OTA) and to handle serial
 communication wirelessly using PlatformIO.
 It uses ArduinoOTA library as well as forked(slightly changed) version
 of: https://github.com/janphoffmann/AsyncTelnet.git
@@ -50,6 +50,7 @@ void setup() {
 
 void loop() {
     WSerial.println("Hello, world! " + String(millis()));
+    OTA::handle();
     delay(1000);
 }
 ```
