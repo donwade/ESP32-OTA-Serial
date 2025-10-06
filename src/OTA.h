@@ -18,7 +18,9 @@ static std::function<void()> disableInterruptsCallback = nullptr;
 
 class OTA {
 public:
-    static void setupWiFi(const char *ssid, const char *pass) {
+    static void setupWiFi(const char *ssid,
+                          const char *pass,
+                          std::function<void()> unableConnectWifiCallback = nullptr) {
         WSerial.beginLocally();
 
         WSerial.println("\nConnecting to Wi-Fi...");
@@ -30,6 +32,9 @@ public:
         while (WiFi.waitForConnectResult() != WL_CONNECTED) {
             delay(5000);
             WSerial.println("Failed to connect to Wi-Fi");
+            if (unableConnectWifiCallback != nullptr) {
+                unableConnectWifiCallback();
+            }
             ESP.restart();
         }
     }
