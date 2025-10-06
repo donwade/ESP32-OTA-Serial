@@ -20,7 +20,8 @@ class OTA {
 public:
     static void setupWiFi(const char *ssid,
                           const char *pass,
-                          std::function<void()> unableConnectWifiCallback = nullptr) {
+                          std::function<void()> unableConnectWifiCallback = nullptr,
+                          const int timeout = 3000) {
         WSerial.beginLocally();
 
         WSerial.println("\nConnecting to Wi-Fi...");
@@ -29,12 +30,12 @@ public:
 
         WiFi.begin(ssid, pass);
         WiFi.setAutoReconnect(true);
-        while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-            delay(5000);
+        while (WiFi.waitForConnectResult(timeout) != WL_CONNECTED) {
             WSerial.println("Failed to connect to Wi-Fi");
             if (unableConnectWifiCallback != nullptr) {
                 unableConnectWifiCallback();
             }
+            delay(500);
             ESP.restart();
         }
     }
